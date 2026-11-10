@@ -4,7 +4,21 @@
   /* Chrome-only for now but this will allow smooth size transitions */
   interpolate-size: allow-keywords;
 
-  --accent-color: #2ec6fe;
+  --accent-color: #6578c7;
+}
+
+@font-face {
+  font-family: 'Orkney Regular';
+  src: url('/fonts/orkney-regular-webfont.woff');
+}
+@font-face {
+  font-family: 'Orkney Bold';
+  src: url('/fonts/orkney-bold-webfont.woff');
+}
+
+@font-face {
+  font-family: 'Fantasque Sans Regular';
+  src: url('/fonts/fantasquesansmono-regular-webfont.woff');
 }
 
 html {
@@ -22,10 +36,10 @@ body {
   flex-direction: column;
   padding: 0;
   margin: 0;
-  background-color: #f0f0f0;
-  color: #303030;
+  background-color: #e9ecf7;
+  color: #131b40;
 
-  font-family: Futura, 'Trebuchet MS', Arial, sans-serif;
+  font-family: 'Fantasque Sans Regular', Futura, 'Trebuchet MS', Arial, sans-serif;
   font-style: normal;
   font-variant: normal;
 }
@@ -45,24 +59,8 @@ header {
 
   h1 {
     flex: 1;
-    margin-right: 50px;
+    /* margin-right: 50px; */
     text-align: center;
-  }
-}
-
-header#main-head {
-  justify-content: space-between;
-  padding: 0 8px;
-  border-bottom: 1px solid var(--accent-color);
-}
-
-.header-identity {
-  text-decoration: none;
-  color: inherit;
-
-  h1 {
-    font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;
-    font-size: 24px;
   }
 }
 
@@ -70,19 +68,23 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;
-  font-variant: common-ligatures small-caps;
+  font-family: 'Orkney Regular', 'Arial', sans-serif;
+  font-variant: common-ligatures;
 }
 
-#main-head > * {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
+header#main-head {
+  justify-content: space-between;
+  padding: 0 8px;
+  border-bottom: 1px solid var(--accent-color);
 
-#logo {
-  height: 40px;
-  margin: 0 10px 0 5px;
+  text-decoration: none;
+  background-color: #11193e;
+  color: inherit;
+
+  h1 {
+    font-family: 'Orkney Bold', 'Arial Black', 'Arial Bold', Gadget, sans-serif;
+    font-size: 24px;
+  }
 }
 
 #main-foot {
@@ -100,7 +102,7 @@ main {
 
   padding: 8px;
   overflow-y: auto;
-  background-color: #fafafa;
+  background-color: #f8f9fd;
 }
 
 .btn,
@@ -208,6 +210,14 @@ a:focus-visible {
   height: -webkit-fill-available;
   height: 100%;
   flex: 1;
+}
+
+.u-text-white {
+  color: white;
+}
+
+.u-text-orange {
+  color: #fc7c62;
 }
 
 /* background scroll fix for dialogs */

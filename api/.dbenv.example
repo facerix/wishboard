@@ -1,0 +1,5 @@
+# Values are literal: no quotes, interpolation, or inline comments.
+DB_HOST=
+DB_NAME=
+DB_USER=
+DB_PASSWORD=

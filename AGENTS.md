@@ -2,9 +2,13 @@
 
 Agent-specific guidance. See [README.md](README.md) for project overview, architecture, and coding standards.
 
+## Wishboard domain
+
+Wishboard lets people create wishlists and share a read-only link with friends and family. An account owns lists; each list has a title and at least one named entry, optionally with a URL. The planned server is authoritative, while a signed-in client keeps a durable offline copy and pending edits. Share tokens grant read access to one list only. See [docs/data-model.md](docs/data-model.md) for the proposed records, permissions, and sync rules. The current scaffold does not yet implement accounts, sync, or sharing; don't treat its localStorage DataStore as the finished data model.
+
 ## TypeScript
 
-The project is TypeScript, compiled with `tsc` (no bundler) to `dist/`. `live-server` serves `dist/` as the web root in dev. Key conventions:
+The project is TypeScript, compiled with `tsc` (no bundler) to `dist/`. PHP serves `dist/` as the web root in dev. Key conventions:
 
 - `moduleResolution: "bundler"`, `strict: true`, `verbatimModuleSyntax: true`
 - **Import specifiers use `.js`**, not `.ts` — they refer to the compiled output the browser loads (e.g. `import { h } from '/src/domUtils.js'`). The TS compiler resolves the `.ts` source. The one exception: files under `tests/` import `.ts` directly so `node --test` can run them without a build step.
@@ -127,7 +131,7 @@ UpdateNotification (dispatched by component)
 
 Run `pnpm test` (typecheck + `node --test`). Tests live in `tests/`, import source with relative paths and the `.ts` extension, and run directly under Node 24's built-in type stripping (no compile step).
 
-For manual UI testing: use @Browser at `http://localhost:8080` (assume `pnpm dev` is already running). Verify UI, interactions, console, service worker.
+For manual UI testing: use @Browser at `http://localhost:8715` (assume `pnpm dev` is already running). Verify UI, interactions, console, service worker.
 
 ## Checklist
 

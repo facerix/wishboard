@@ -1,6 +1,9 @@
 # Enable rewrite engine
 RewriteEngine On
 
+# Deny direct requests for dotfiles and files in dot directories.
+RewriteRule (^|/)\. - [F]
+
 # Force HTTPS
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
@@ -27,3 +30,6 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
   Header set Content-Type "application/manifest+json"
   Header set Cache-Control "max-age=3600, public"
 </FilesMatch>
+
+# serve php/html files without their extension
+Options +MultiViews

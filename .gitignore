@@ -1,6 +1,8 @@
 .DS_Store
 .env
+.dbenv
 node_modules
+.pnpm-store
 .plans/*
 dist
 *.tsbuildinfo

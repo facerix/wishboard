@@ -1,26 +1,24 @@
 {
-  "name": "App Name",
-  "short_name": "App Name",
+  "name": "Wishboard",
+  "short_name": "Wishboard",
   "start_url": "/",
-  "description": "A simple web app",
-  "theme_color": "#2EC6FE",
-  "background_color": "#f3f4f5",
-  "orientation": "any",
-  "display": "standalone",
-  "dir": "auto",
-  "lang": "en-US",
+  "description": "Share your wishlists with your friends and family",
   "icons": [
     {
-      "src": "icons/icon512_maskable.png",
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
       "type": "image/png",
-      "sizes": "512x512",
       "purpose": "maskable"
     },
-    { "src": "icons/icon512_rounded.png", "type": "image/png", "sizes": "512x512" },
-    { "src": "icons/icon-192x192.png", "type": "image/png", "sizes": "192x192" },
-    { "src": "apple-touch-icon.png", "type": "image/png", "sizes": "180x180" },
-    { "src": "favicon-96x96.png", "type": "image/png", "sizes": "96x96" },
-    { "src": "favicon.svg", "type": "image/svg+xml", "sizes": "any" },
-    { "src": "favicon.ico", "type": "image/x-icon", "sizes": "16x16 32x32 48x48" }
-  ]
+    {
+      "src": "/icons/icon512_maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "theme_color": "#131b40",
+  "background_color": "#131b40",
+  "display": "standalone",
+  "lang": "en-US"
 }

@@ -7,7 +7,7 @@
  * Creates cache configuration from a version string and provides shared resource lists
  */
 const CacheConfig = {
-  create(version, prefix = 'app-cache-') {
+  create(version, prefix = 'wishboard-cache-') {
     return {
       version,
       name: `${prefix}v${version}`,
@@ -265,6 +265,11 @@ const ServiceWorkerCore = {
   },
 
   async handleFetch(request, cacheNames, logPrefix = '[SW]', useNetworkFirstForHTML = false) {
+    // API responses can be private and must never enter the PWA caches.
+    if (new URL(request.url).pathname.startsWith('/api/')) {
+      return fetch(request);
+    }
+
     if (request.method !== 'GET') {
       return fetch(request);
     }

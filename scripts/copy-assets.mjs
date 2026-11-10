@@ -1,5 +1,5 @@
 /**
- * Copy static (non-TypeScript) assets into dist/ so live-server can serve
+ * Copy static (non-TypeScript) assets into dist/ so php can serve
  * dist/ as the web root. tsc emits the compiled .js alongside these.
  *
  * The asset list is explicit on purpose — no globbing surprises. If a listed
@@ -32,7 +32,7 @@ const files = [
 ];
 
 // Directories copied recursively.
-const dirs = ['icons', 'images', 'fonts'];
+const dirs = ['icons', 'images', 'fonts', 'api'];
 
 async function run() {
   await mkdir(dist, { recursive: true });

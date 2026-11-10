@@ -1,7 +1,5 @@
-// App-specific service-worker resources.
-// Add URL paths here when the app introduces pages or assets beyond the
-// template defaults. These paths must also be copied into dist/ by
-// scripts/copy-assets.mjs.
+// Wishboard-specific resources beyond the scaffold defaults in sw-core.js.
+// Add paths here alongside their build-copy registration when new assets arrive.
 const AppCacheResources = Object.freeze({
   core: [],
   static: [],

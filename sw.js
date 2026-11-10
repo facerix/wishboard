@@ -1,6 +1,6 @@
-// Service Worker for App - Production Version
+// Service Worker for Wishboard - Production Version
 // Import shared caching core with cache-busting query parameter
-const VERSION = '0.0.1';
+const VERSION = '0.1.1';
 importScripts(`/sw-resources.js?v=${VERSION}`);
 importScripts(`/sw-core.js?v=${VERSION}`);
 
@@ -8,7 +8,7 @@ const cacheConfig = CacheConfig.create(VERSION);
 const CACHE_VERSION = cacheConfig.version;
 const CACHE_NAMES = cacheConfig;
 const CACHE_PREFIX = cacheConfig.prefix;
-const LOG_PREFIX = `[App ${CACHE_VERSION}]`;
+const LOG_PREFIX = `[Wishboard ${CACHE_VERSION}]`;
 
 const coreResources = CacheConfig.getCoreResources(AppCacheResources.core);
 const staticAssets = CacheConfig.getStaticAssets(AppCacheResources.static);

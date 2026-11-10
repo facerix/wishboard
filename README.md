@@ -1,6 +1,6 @@
-# Facerix App Template
+# Wishboard
 
-Progressive Web App (PWA) template for building offline-first web applications. Built with vanilla TypeScript, Web Components, and Service Workers — compiled with `tsc`, no bundler.
+Wishboard helps people create wishlists and share them with friends and family. This repository is the initial PWA scaffold; account, list, sync, and sharing features are planned in [docs/data-model.md](docs/data-model.md). Built with vanilla TypeScript, Web Components, and Service Workers — compiled with `tsc`, no bundler.
 
 ## Architecture
 
@@ -27,7 +27,7 @@ This activates pre-commit hooks that run lint and format checks before each comm
 
 ### Commands
 
-- **`pnpm start` / `pnpm dev`** — runs three concurrent processes: `tsc --watch`, a chokidar asset-copy watcher, and live-server on port 8080 serving `dist/`
+- **`pnpm start` / `pnpm dev`** — runs three concurrent processes: `tsc --watch`, a chokidar asset-copy watcher, and PHP's development server on port 8715 serving `dist/`
 - **`pnpm build`** — one-shot `tsc` build + asset copy into `dist/`
 - **`pnpm typecheck`** — type-check src and tests without emitting
 - **`pnpm test`** — typecheck + run `node --test` against `.ts` files with the browser-specifier resolver
@@ -37,7 +37,15 @@ This activates pre-commit hooks that run lint and format checks before each comm
 
 ### How the build works
 
-`tsc` reads source from the repo root (`index.ts`, `about.ts`, `src/**`, `components/**`) and emits compiled `.js` into `dist/` (preserving the tree). `scripts/copy-assets.mjs` copies all static files (HTML, CSS, manifest, icons, images, fonts, and service workers) into `dist/`. `live-server` serves `dist/` as the web root, so the absolute import paths in source (`/src/foo.js`, `/components/Foo.js`) resolve correctly.
+`tsc` reads source from the repo root (`index.ts`, `about.ts`, `src/**`, `components/**`) and emits compiled `.js` into `dist/` (preserving the tree). `scripts/copy-assets.mjs` copies static files (HTML, CSS, manifest, icons, images, fonts, service workers, and PHP API files) into `dist/`. PHP's development server serves `dist/` as the web root, so the absolute import paths in source (`/src/foo.js`, `/components/Foo.js`) resolve correctly.
+
+### PHP API scaffold
+
+`api/` contains the small PHP boundary and is copied into `dist/api/`. The TypeScript UI can call it through `src/apiClient.ts`; it does not read database credentials. PHP 8.4 with `mysqli` is required for local development and production. The development server serves `dist/` at `http://localhost:8715`; unlike app-template's `live-server`, it executes PHP. It does not provide automatic browser reload.
+
+Create `api/.dbenv` from `.dbenv.example` for local development. The asset copy puts it in `dist/api/.dbenv`. On the host, put a separate `.dbenv` in the deployed `api/` directory; deployment excludes that file so local credentials cannot overwrite production credentials. Apache's `.htaccess` and the local PHP router forbid direct HTTP requests for dotfiles. Use `chmod 600` when PHP runs as the file owner, or `640` with a PHP-readable group. The reader accepts only literal, unquoted `KEY=value` lines and full-line `#` comments; it rejects malformed lines, duplicate keys, and missing or empty required values.
+
+`GET /api/health.php` checks the database connection and returns `{"status":"ok"}` or a generic 503 response. It is a wiring check, not a list endpoint. List, account, sharing, and sync endpoints remain to be implemented according to `docs/data-model.md`. The service worker sends all `/api/` requests directly to the network and never stores their responses in PWA caches.
 
 Service workers (`sw.js`, `sw-dev.js`, `sw-core.js`, and `sw-resources.js`) are **not** compiled by `tsc` — they're hand-authored classic-worker JavaScript and are copied verbatim into `dist/`. Add app-specific cache entries to `sw-resources.js` instead of editing the shared resource lists in `sw-core.js`.
 

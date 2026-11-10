@@ -2,6 +2,8 @@
 
 import { v4WithTimestamp } from '/src/uuid.js';
 
+const STORAGE_KEY = 'wishboard-lists';
+
 /**
  * Minimum shape of a record. Apps consuming this template are expected to
  * extend it with their own fields; the store doesn't care what else lives on
@@ -38,34 +40,28 @@ class DataStore extends EventTarget {
   }
 
   #loadRecordsFromJson(json: string): DataRecord[] {
+    let records: unknown;
     try {
-      const records: unknown = JSON.parse(json);
-      if (!Array.isArray(records)) {
-        console.warn('[DataStore] Expected array JSON, falling back to empty list.');
-        return [];
-      }
-      records.forEach((item: DataRecord, index: number) => {
-        if (!item.id) {
-          records[index].id = v4WithTimestamp();
-        }
-      });
-      return records as DataRecord[];
+      records = JSON.parse(json);
     } catch (error) {
-      console.warn('[DataStore] Failed to parse stored JSON, resetting items.', error);
-      try {
-        window.localStorage.setItem('items', '[]');
-      } catch (storageError) {
-        console.warn('[DataStore] Failed to reset stored items.', storageError);
-      }
-      return [];
+      throw new Error('Invalid stored list data: JSON cannot be parsed', { cause: error });
     }
+    if (!Array.isArray(records)) {
+      throw new Error('Invalid stored list data: expected an array');
+    }
+    records.forEach((item: DataRecord, index: number) => {
+      if (!item.id) {
+        records[index].id = v4WithTimestamp();
+      }
+    });
+    return records as DataRecord[];
   }
 
   async init(): Promise<void> {
-    let savedItemsJson = window.localStorage.getItem('items');
+    let savedItemsJson = window.localStorage.getItem(STORAGE_KEY);
     if (!savedItemsJson) {
       savedItemsJson = '[]';
-      window.localStorage.setItem('items', savedItemsJson);
+      window.localStorage.setItem(STORAGE_KEY, savedItemsJson);
     }
     this.#items = this.#loadRecordsFromJson(savedItemsJson);
     this.#reindex();
@@ -86,7 +82,7 @@ class DataStore extends EventTarget {
   }
 
   #saveItems(): void {
-    window.localStorage.setItem('items', JSON.stringify(this.#items));
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(this.#items));
   }
 
   #emitChangeEvent(
